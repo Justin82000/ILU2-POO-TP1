@@ -58,11 +58,63 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
+	public String installerVendeur(Gaulois vendeur, String produit,int nbProduit) {
+		StringBuilder chaine = new StringBuilder();
+		chaine.append(vendeur.getNom() + " cherche un endroit pour vendre " + nbProduit + " " + produit + ".\n");
+		int indice = marche.trouverEtalLibre();
+		marche.utiliserEtal(indice,vendeur,produit,nbProduit);
+		chaine.append("Le vendeur " + vendeur.getNom() + "vend des fleurs a l'etal n°" + indice +".\n");
+		 return chaine.toString();
+	}
+	
+	public String rechercherVendeursProduit(String produit) {
+		StringBuilder chaine = new StringBuilder();
+		Etal[] test =  marche.trouverEtals(produit);
+		if (test.length == 0) {
+			chaine.append("Il n'y a pas de vendeur qui propose des " + produit + " au marché;\n");
+		}
+		else if (test.length == 1) {
+			chaine.append("Seul le vendeur " + test[0].getVendeur().getNom() + " propose des " + produit + " au marché.\n");
+		}
+		else {
+			chaine.append("Les vendeurs aui proposent des " + produit + " sont :\n");
+			for (int i = 0; i < test.length; i++) {
+				chaine.append("- " + test[i].getVendeur().getNom() + "\n");
+			}
+		}
+		return chaine.toString();
+	}
+	
+	public Etal rechercherEtal(Gaulois vendeur) {
+		return marche.trouverVendeur(vendeur);
+	}
+	
+	public String partirVendeur(Gaulois vendeur) {
+		StringBuilder chaine = new StringBuilder();
+		Etal etal = marche.trouverVendeur(vendeur);
+		if (etal == null) {
+	        chaine.append("Le villageois " + vendeur.getNom() + " n'occupe aucun etal sur le marché.\n");
+	    }
+		chaine.append(etal.libererEtal());
+	    return chaine.toString();
+	}
+	
+	public String afficherMarche() {
+		StringBuilder chaine = new StringBuilder();
+		chaine.append("Le marché du village " + this.getNom() + " possède plusieurs étals :\n");
+		chaine.append(marche.afficherMarche());
+		return chaine.toString();
+	}
+	
 	public class Marche {
 		private Etal[] etals;
 		
 		public Marche(int nbEtals) {
 			etals = new Etal[nbEtals];
+			for (int i = 0; i < nbEtals; i++) {
+		        etals[i] = new Etal();
+			}
 		}
 		
 		public void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {

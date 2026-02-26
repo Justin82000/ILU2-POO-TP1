@@ -32,7 +32,7 @@ public class Etal {
 		int produitVendu = quantiteDebutMarche - quantite;
 		if (produitVendu > 0) {
 			chaine.append(
-					"il a vendu " + produitVendu + " parmi " + produit + ".\n");
+					"il a vendu " + produitVendu + produit + " parmi les " + produit + " qu'il voulait vendre.\n");
 		} else {
 			chaine.append("il n'a malheureusement rien vendu.\n");
 		}
@@ -53,7 +53,7 @@ public class Etal {
 			chaine.append(acheteur.getNom() + " veut acheter " + quantiteAcheter
 					+ " " + produit + " à " + vendeur.getNom());
 			if (quantite == 0) {
-				chaine.append(", malheureusement il n'y en a plus !");
+				chaine.append(", malheureusement il n'y en a plus !\n");
 				quantiteAcheter = 0;
 			}
 			if (quantiteAcheter > quantite) {
